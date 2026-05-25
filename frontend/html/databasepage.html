@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../css/databasesearch.css" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script defer>
+      fetch("sidebar.html")
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById("sidebar-container").innerHTML = data;
+        });
+    </script>
+
+    <title>Database</title>
+  </head>
+
+  <body>
+    <div id="sidebar-container"></div>
+
+    <div class="maincontent">
+      <div class="pagetitle">Database Search</div>
+
+      <div class="pagecontent">
+        <div class="change-searchtype">
+          <button id="tag-btn" onclick="setMode('tag-search')">
+            Search by Tag
+          </button>
+
+          <button id="file-btn" onclick="setMode('file-search')">
+            Search by File
+          </button>
+
+          <button id="url-btn" onclick="setMode('url-search')">
+            Search by URL
+          </button>
+        </div>
+
+        <div id="contentBox"></div>
+
+        <div class="image-gallery">
+          <img src="../test-images/Alectura_lathami_1.jpg" />
+          <img src="../test-images/Alectura_lathami_2.jpg" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function resetButtons() {
+        document.getElementById("tag-btn").style.backgroundColor = "white";
+        document.getElementById("file-btn").style.backgroundColor = "white";
+        document.getElementById("url-btn").style.backgroundColor = "white";
+      }
+
+      async function setMode(mode) {
+        const box = document.getElementById("contentBox");
+
+        resetButtons();
+
+        const buttonId = mode.replace("search", "btn");
+
+        document.getElementById(buttonId).style.backgroundColor = "lightgreen";
+
+        const response = await fetch(`searchmodes/${mode}.html`);
+        const html = await response.text();
+
+        box.innerHTML = html;
+      }
+
+      // default mode
+      setMode("tag-search");
+    </script>
+  </body>
+</html>

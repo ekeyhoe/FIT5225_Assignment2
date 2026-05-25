@@ -1,0 +1,59 @@
+.change-searchtype {
+  display: flex;
+  width: 100%;
+}
+
+.change-searchtype button {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  flex: 1;
+  border-radius: 0;
+}
+
+#contentBox {
+  padding: 2%;
+  border: 1px solid #ccc;
+}
+
+.input {
+  width: 60%;
+  font-size: 24px;
+  padding: 8px;
+}
+
+.search-row {
+  display: flex;
+}
+
+#searchbtn {
+  margin-left: auto;
+  width: 10%;
+  font-size: 24px;
+  padding: 8px;
+  margin-right: 20px;
+}
+
+#filesearchbtn {
+  font-size: 24px;
+  padding: 8px;
+  text-decoration: underline;
+}
+
+#searchinfotxt {
+  color: rgb(88, 88, 88);
+}
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 per row */
+  margin: 2%;
+  gap: 20px;
+}
+
+.image-gallery img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 6px;
+}
