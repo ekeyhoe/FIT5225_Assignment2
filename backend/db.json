@@ -1,0 +1,22 @@
+[
+  {
+    "id": "4a553a70-d744-4f7a-b9cc-0226b9b3a9c3",
+    "filename": "Alectura_lathami_1.JPG",
+    "original_path": "uploads/4a553a70-d744-4f7a-b9cc-0226b9b3a9c3.JPG",
+    "thumbnail_path": "thumbnails/4a553a70-d744-4f7a-b9cc-0226b9b3a9c3_thumb.jpg",
+    "file_type": "image",
+    "checksum": "d1cda07ef954d7d52bb580b296131aa2",
+    "tags": {
+      "Alectura_lathami": 1
+    },
+    "detections": [
+      {
+        "species": "Alectura_lathami",
+        "confidence": 0.9998936653137207
+      }
+    ],
+    "cropped_paths": [
+      "cropped_images/4a553a70-d744-4f7a-b9cc-0226b9b3a9c3-0.JPG"
+    ]
+  }
+]

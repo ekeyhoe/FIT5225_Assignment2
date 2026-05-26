@@ -1,0 +1,10 @@
+# Input / output paths
+INPUT_DIR: "./uploads"
+MD_FILE: "./mg_detections.json"
+SNIP_DIR: "./cropped_images"
+MEGADETECTOR_MODEL: "./mdv5a.pt"
+SPECIES_MODEL: "./model.pt"
+DB_FILE: "./db.json"
+# Detection & snipping parameters
+LOWER_CONF: 0.05
+SNIP_SIZE: 600
