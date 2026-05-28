@@ -12,6 +12,54 @@
           document.getElementById("sidebar-container").innerHTML = data;
         });
     </script>
+    <script>
+      function openFilePicker() {
+        const input = document.getElementById("file-input");
+
+        input.click();
+
+        input.onchange = function () {
+          const file = input.files[0];
+
+          if (file) {
+            document.getElementById("selected-file-name").textContent =
+              file.name;
+          }
+        };
+      }
+
+      async function processFiles() {
+        const fileInput = document.getElementById("file-input");
+
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("Please select a file first");
+          return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("file", file);
+
+        try {
+          const response = await fetch("http://localhost:8000/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+
+          console.log(data);
+
+          alert("Upload successful");
+        } catch (error) {
+          console.error(error);
+
+          alert("Upload failed");
+        }
+      }
+    </script>
     <title>Upload</title>
   </head>
   <body>
@@ -20,14 +68,18 @@
     <div class="maincontent">
       <div class="pagetitle">Upload Image/Video</div>
       <div class="pagecontent">
-        <input type="file" id="file-input" style="display: none" />
+        <input
+          type="file"
+          id="file-input"
+          style="display: none"
+          accept="image/*,video/*"
+        />
         <button class="btn" id="fileuploadbtn" onclick="openFilePicker()">
           Select an image/video to upload
         </button>
-        <p>Files selected:</p>
-        <p>example.png</p>
+        <p id="selected-file-name">No file selected</p>
         <button class="btn" id="filesubmitbtn" onclick="processFiles()">
-          Submit files
+          Submit file
         </button>
       </div>
     </div>

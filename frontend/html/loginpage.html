@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../css/login.css" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      async function login() {
+        const errorBox = document.getElementById("error");
+        errorBox.textContent = "sfgdfgfgh";
+
+        setTimeout(() => {
+          window.location.href = "uploadpage.html";
+        }, 4000);
+      }
+    </script>
+    <title>Login</title>
+  </head>
+
+  <body>
+    <div class="login-container">
+      <div class="pagetitle">Login</div>
+
+      <input id="username" class="input" placeholder="Username" />
+      <input
+        id="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+      />
+
+      <button class="btn" onclick="login()">Sign in</button>
+
+      <div id="error" class="error"></div>
+    </div>
+  </body>
+</html>

@@ -22,16 +22,25 @@
   padding: 8px;
 }
 
-.search-row {
+.row {
   display: flex;
 }
 
-#searchbtn {
+.paragraphs {
+  display: block;
+}
+
+.mainfunctionbtn {
   margin-left: auto;
   width: 10%;
   font-size: 24px;
   padding: 8px;
   margin-right: 20px;
+  height: 4%;
+}
+
+#multi-selectbtn {
+  margin-top: 1.5%;
 }
 
 #filesearchbtn {
