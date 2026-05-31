@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+}
+
+.back-btn {
+  position: fixed;
+  top: 3%;
+  left: 2%;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#fullImage {
+  display: block;
+  margin: 0 auto;
+  max-width: 95vw;
+  max-height: 95vh;
+}

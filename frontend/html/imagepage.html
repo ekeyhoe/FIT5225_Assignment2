@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../css/general.css" />
+    <link rel="stylesheet" href="../css/imagepage.css" />
+    <title>Full Image View</title>
+  </head>
+  <body>
+    <button class="back-btn" onclick="history.back()">← Back</button>
+    <img id="fullImage" />
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+
+      document.getElementById("fullImage").src = params.get("src");
+    </script>
+  </body>
+</html>

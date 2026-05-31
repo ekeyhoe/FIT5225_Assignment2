@@ -97,19 +97,87 @@
         document.getElementById("url-btn").style.backgroundColor = "white";
       }
 
+      let multiSelectMode = false;
+      const selectedImages = new Set();
+
+      function toggleMultiSelect() {
+        //Toggles the multi-select option if button is pressed
+        multiSelectMode = !multiSelectMode;
+        updateMultiSelectUI();
+
+        const btn = document.getElementById("multi-selectbtn");
+        btn.classList.toggle("active", multiSelectMode);
+
+        if (!multiSelectMode) {
+          selectedImages.clear();
+
+          document.querySelectorAll(".image-gallery img").forEach((img) => {
+            img.classList.remove("selected");
+          });
+        }
+      }
+
+      function setupGallery() {
+        //Handles clicking on images (either for multi-select or getting full image view)
+        document.querySelectorAll(".image-gallery img").forEach((img) => {
+          img.addEventListener("click", () => {
+            if (multiSelectMode) {
+              img.classList.toggle("selected");
+
+              if (img.classList.contains("selected")) {
+                selectedImages.add(img.dataset.full);
+              } else {
+                selectedImages.delete(img.dataset.full);
+              }
+
+              console.log([...selectedImages]);
+            } else {
+              const fullImage = img.dataset.full;
+
+              window.location.href = `imagepage.html?src=${encodeURIComponent(img.src)}`; // Change to fullImage once we have an established thumbnail/fullimage relationship
+            }
+          });
+        });
+      }
+
+      setupGallery();
+
+      function updateMultiSelectUI() {
+        //toggles multi-select UI buttons
+        const btn = document.getElementById("multi-selectbtn");
+        const actions = document.getElementById("multiSelectActions");
+
+        if (btn) {
+          btn.classList.toggle("active", multiSelectMode);
+        }
+
+        if (actions) {
+          actions.classList.toggle("visible", multiSelectMode);
+        }
+      }
+
       async function setMode(mode) {
         const box = document.getElementById("contentBox");
 
         resetButtons();
 
         const buttonId = mode.replace("search", "btn");
-
         document.getElementById(buttonId).style.backgroundColor = "lightgreen";
 
+        // Load search mode
         const response = await fetch(`searchmodes/${mode}.html`);
         const html = await response.text();
-
         box.innerHTML = html;
+
+        // Load reusable multiselect controls
+        const multiResponse = await fetch(
+          "searchmodes/multiselect-toggle.html",
+        );
+        const multiHtml = await multiResponse.text();
+
+        document.getElementById("multiselect-container").innerHTML = multiHtml;
+
+        updateMultiSelectUI();
       }
 
       // default mode

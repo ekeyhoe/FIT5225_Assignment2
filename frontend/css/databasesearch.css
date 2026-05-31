@@ -24,6 +24,7 @@
 
 .row {
   display: flex;
+  align-items: center;
 }
 
 .paragraphs {
@@ -37,6 +38,7 @@
   padding: 8px;
   margin-right: 20px;
   height: 4%;
+  cursor: pointer;
 }
 
 #multi-selectbtn {
@@ -53,6 +55,39 @@
   color: rgb(88, 88, 88);
 }
 
+.spacer {
+  margin-left: auto;
+}
+
+#multi-selectbtn.active {
+  background-color: #666;
+  color: white;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.multi-select-actions {
+  display: none;
+}
+
+.multi-select-actions.visible {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 8px;
+  padding: 4px;
+}
+
+.hiddenbtn {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#delete-btn {
+  background-color: #d9534f;
+  color: white;
+}
+
 .image-gallery {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 per row */
@@ -65,4 +100,12 @@
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 6px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: 0.2s;
+}
+
+.image-gallery img.selected {
+  border: 3px solid dodgerblue;
+  transform: scale(0.95);
 }
