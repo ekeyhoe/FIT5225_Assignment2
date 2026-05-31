@@ -7,54 +7,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script defer>
-      fetch("sidebar.html")
-        .then((res) => res.text())
-        .then((data) => {
-          document.getElementById("sidebar-container").innerHTML = data;
-        });
-    </script>
-    <script>
-      function openFilePicker() {
-        document.getElementById("file-input").click();
-
-        const input = document.getElementById("file-input");
-
-        input.onchange = function () {
-          const file = input.files[0];
-
-          if (file) {
-            document.getElementById("selected-file-name").textContent =
-              file.name;
-          }
-        };
-      }
-
-      async function searchFile() {
-        const fileInput = document.getElementById("file-input");
-
-        const file = fileInput.files[0];
-
-        if (!file) {
-          alert("Please select a file");
-          return;
-        }
-
-        const formData = new FormData();
-
-        formData.append("file", file);
-
-        const response = await fetch("http://localhost:8000/query/file-tags", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await response.json();
-
-        console.log(data);
-      }
-    </script>
     <title>Database</title>
+
+    <!-- single JS entry point -->
+    <script src="../js/databasesearch.js" defer></script>
   </head>
 
   <body>
@@ -65,23 +21,16 @@
 
       <div class="pagecontent">
         <div class="change-searchtype">
-          <button id="tag-btn" onclick="setMode('tag-search')">
-            Search by Tag
-          </button>
+          <button id="tag-btn" data-mode="tag-search">Search by Tag</button>
 
-          <button id="file-btn" onclick="setMode('file-search')">
-            Search by File
-          </button>
+          <button id="file-btn" data-mode="file-search">Search by File</button>
 
-          <button id="url-btn" onclick="setMode('url-search')">
-            Search by URL
-          </button>
+          <button id="url-btn" data-mode="url-search">Search by URL</button>
         </div>
 
         <div id="contentBox"></div>
 
         <div class="image-gallery">
-          <!-- insert function to get image thumnails here -->
           <img
             src="../../backend/thumbnails/4a553a70-d744-4f7a-b9cc-0226b9b3a9c3_thumb.jpg"
           />
@@ -89,99 +38,5 @@
         </div>
       </div>
     </div>
-
-    <script>
-      function resetButtons() {
-        document.getElementById("tag-btn").style.backgroundColor = "white";
-        document.getElementById("file-btn").style.backgroundColor = "white";
-        document.getElementById("url-btn").style.backgroundColor = "white";
-      }
-
-      let multiSelectMode = false;
-      const selectedImages = new Set();
-
-      function toggleMultiSelect() {
-        //Toggles the multi-select option if button is pressed
-        multiSelectMode = !multiSelectMode;
-        updateMultiSelectUI();
-
-        const btn = document.getElementById("multi-selectbtn");
-        btn.classList.toggle("active", multiSelectMode);
-
-        if (!multiSelectMode) {
-          selectedImages.clear();
-
-          document.querySelectorAll(".image-gallery img").forEach((img) => {
-            img.classList.remove("selected");
-          });
-        }
-      }
-
-      function setupGallery() {
-        //Handles clicking on images (either for multi-select or getting full image view)
-        document.querySelectorAll(".image-gallery img").forEach((img) => {
-          img.addEventListener("click", () => {
-            if (multiSelectMode) {
-              img.classList.toggle("selected");
-
-              if (img.classList.contains("selected")) {
-                selectedImages.add(img.dataset.full);
-              } else {
-                selectedImages.delete(img.dataset.full);
-              }
-
-              console.log([...selectedImages]);
-            } else {
-              const fullImage = img.dataset.full;
-
-              window.location.href = `imagepage.html?src=${encodeURIComponent(img.src)}`; // Change to fullImage once we have an established thumbnail/fullimage relationship
-            }
-          });
-        });
-      }
-
-      setupGallery();
-
-      function updateMultiSelectUI() {
-        //toggles multi-select UI buttons
-        const btn = document.getElementById("multi-selectbtn");
-        const actions = document.getElementById("multiSelectActions");
-
-        if (btn) {
-          btn.classList.toggle("active", multiSelectMode);
-        }
-
-        if (actions) {
-          actions.classList.toggle("visible", multiSelectMode);
-        }
-      }
-
-      async function setMode(mode) {
-        const box = document.getElementById("contentBox");
-
-        resetButtons();
-
-        const buttonId = mode.replace("search", "btn");
-        document.getElementById(buttonId).style.backgroundColor = "lightgreen";
-
-        // Load search mode
-        const response = await fetch(`searchmodes/${mode}.html`);
-        const html = await response.text();
-        box.innerHTML = html;
-
-        // Load reusable multiselect controls
-        const multiResponse = await fetch(
-          "searchmodes/multiselect-toggle.html",
-        );
-        const multiHtml = await multiResponse.text();
-
-        document.getElementById("multiselect-container").innerHTML = multiHtml;
-
-        updateMultiSelectUI();
-      }
-
-      // default mode
-      setMode("tag-search");
-    </script>
   </body>
 </html>

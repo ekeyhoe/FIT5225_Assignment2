@@ -1,16 +1,29 @@
 <div class="row">
-  <div id="multiSelectActions" class="multi-select-actions">
-    <div class="spacer"></div>
-    <button class="hiddenbtn" id="addtagbtn" onclick="addTags()">
-      Add Tag
-    </button>
+  <input
+    id="tag-input"
+    class="input"
+    placeholder="Input tags to search by..."
+  />
+  <button id="searchbtn" class="mainfunctionbtn" onclick="searchTags()">
+    Search
+  </button>
+</div>
 
-    <button class="hiddenbtn" id="removetagbtn" onclick="removeTags()">
-      Remove Tag
-    </button>
-
-    <button class="hiddenbtn" id="delete-btn" onclick="deleteImages()">
-      Delete Image(s)
-    </button>
+<div class="row">
+  <div class="paragraphs">
+    <p class="searchinfotxt">
+      e.g. '{"dingo"}' will return all images with at least 1 dingo
+    </p>
+    <p class="searchinfotxt">e.g. '{"wombat":2, "magpie":1}'</p>
   </div>
+
+  <!-- MULTI SELECT BUTTON GOES HERE -->
+  <button id="multi-selectbtn" class="mainfunctionbtn">Multi-Select</button>
+</div>
+
+<!-- MULTI SELECT ACTIONS GO HERE -->
+<div id="multiSelectActions" class="multi-select-actions">
+  <button class="hiddenbtn" id="addtagbtn">Add Tag</button>
+  <button class="hiddenbtn" id="removetagbtn">Remove Tag</button>
+  <button class="hiddenbtn" id="delete-btn">Delete Image(s)</button>
 </div>

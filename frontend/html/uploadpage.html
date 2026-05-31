@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../css/uploadpage.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <script defer>
       fetch("sidebar.html")
         .then((res) => res.text())
@@ -12,35 +13,42 @@
           document.getElementById("sidebar-container").innerHTML = data;
         });
     </script>
+
     <script>
+      let fileInput;
+      let dropZone;
+
+      function updateFileDisplay(files) {
+        if (files.length > 0) {
+          const names = Array.from(files)
+            .map((f) => f.name)
+            .join(", ");
+
+          document.getElementById("selected-file-name").textContent =
+            `${files.length} file(s): ${names}`;
+        } else {
+          document.getElementById("selected-file-name").textContent =
+            "No file selected";
+        }
+      }
+
       function openFilePicker() {
-        const input = document.getElementById("file-input");
-
-        input.click();
-
-        input.onchange = function () {
-          const file = input.files[0];
-
-          if (file) {
-            document.getElementById("selected-file-name").textContent =
-              file.name;
-          }
-        };
+        fileInput.click();
       }
 
       async function processFiles() {
-        const fileInput = document.getElementById("file-input");
+        const files = fileInput.files;
 
-        const file = fileInput.files[0];
-
-        if (!file) {
-          alert("Please select a file first");
+        if (!files || files.length === 0) {
+          alert("Please select files first");
           return;
         }
 
         const formData = new FormData();
 
-        formData.append("file", file);
+        for (let i = 0; i < files.length; i++) {
+          formData.append("files", files[i]);
+        }
 
         try {
           const response = await fetch("http://localhost:8000/upload", {
@@ -49,37 +57,81 @@
           });
 
           const data = await response.json();
-
           console.log(data);
 
           alert("Upload successful");
         } catch (error) {
           console.error(error);
-
           alert("Upload failed");
         }
       }
+
+      function initUpload() {
+        fileInput = document.getElementById("file-input");
+        dropZone = document.getElementById("drop-zone");
+
+        // file picker change
+        fileInput.addEventListener("change", () => {
+          updateFileDisplay(fileInput.files);
+        });
+
+        // click to open picker
+        dropZone.addEventListener("click", () => {
+          fileInput.click();
+        });
+
+        // drag over
+        dropZone.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          dropZone.classList.add("dragover");
+        });
+
+        // drag leave
+        dropZone.addEventListener("dragleave", () => {
+          dropZone.classList.remove("dragover");
+        });
+
+        // drop files
+        dropZone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          dropZone.classList.remove("dragover");
+
+          const files = e.dataTransfer.files;
+          fileInput.files = files;
+
+          updateFileDisplay(files);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", initUpload);
     </script>
+
     <title>Upload</title>
   </head>
+
   <body>
     <div id="sidebar-container"></div>
 
     <div class="maincontent">
       <div class="pagetitle">Upload Image/Video</div>
+
       <div class="pagecontent">
         <input
           type="file"
           id="file-input"
           style="display: none"
           accept="image/*,video/*"
+          multiple
         />
-        <button class="btn" id="fileuploadbtn" onclick="openFilePicker()">
-          Select an image/video to upload
-        </button>
-        <p id="selected-file-name">No file selected</p>
+
+        <div id="drop-zone" class="drop-zone">
+          Drag & drop images/videos here or click to select
+        </div>
+
+        <p id="selected-file-name">No files selected</p>
+
         <button class="btn" id="filesubmitbtn" onclick="processFiles()">
-          Submit file
+          Submit files
         </button>
       </div>
     </div>
